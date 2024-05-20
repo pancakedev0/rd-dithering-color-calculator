@@ -144,7 +144,7 @@ export default function Home() {
             STYLE={`--lightCol:${light}`}
             onClick={() => {
               window.open(
-                'https://github.com/pancakedev0/rd-dithering-color-calculator/blob/8362ef1bcc9eda14e5a99a4791550d07579c0414/README.md'
+                'https://github.com/pancakedev0/rd-dithering-color-calculator/blob/main/README.md'
               );
             }}
           >
