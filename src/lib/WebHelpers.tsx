@@ -35,14 +35,18 @@ export async function loadPaletteAsync(
   const jsonUrl = `https://lospec.com/palette-list/${slug}.json`;
   return await getJSON(jsonUrl)
     .then((json: LospecResponse) => {
-      const colorOne = hexToRgb(json.colors[0]) ?? { r: 0, g: 0, b: 0 };
-      const colorTwo = hexToRgb(json.colors[1]) ?? { r: 0, g: 0, b: 0 }; // Assume that the desired light/dark colors are within the first two colors of the palette
+      const colors = json.colors;
+      let luminances: { color: RgbColor; luminance: number }[] = []; // the key number is the index of the color, the value number is the luminance
 
-      const luminanceOne = rgbLuminance(colorOne);
-      const luminanceTwo = rgbLuminance(colorTwo);
+      colors.forEach((color) => {
+        const rgb = hexToRgb(color) ?? { r: 0, g: 0, b: 0 };
+        luminances.push({ color: rgb, luminance: rgbLuminance(rgb) });
+      });
 
-      const lightColor = luminanceOne > luminanceTwo ? colorOne : colorTwo;
-      const darkColor = luminanceOne < luminanceTwo ? colorOne : colorTwo;
+      luminances.sort((a, b) => a.luminance - b.luminance);
+
+      const darkColor = luminances[0].color; // the color with the least luminance
+      const lightColor = luminances[luminances.length - 1].color; // the color with the most luminance
 
       const palette = {
         name: json.name,

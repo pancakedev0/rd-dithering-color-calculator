@@ -58,29 +58,29 @@ export default function ColorCalculator(props: {
   const inputLight = props.palette.light;
   const inputDark = props.palette.dark;
 
-  const fgDark = colorToAlpha(inputLight, white);
-  const [bgDark, distDark] = findBaseColor(inputDark, fgDark);
+  const fgLight = colorToAlpha(inputLight, white);
+  const [bgLight, distDark] = findBaseColor(inputDark, fgLight);
 
-  const fgLight = rgbaClamp(colorToAlpha(inputDark, black));
-  const [bgLight, distLight] = findBaseColor(inputLight, fgLight);
+  const fgDark = rgbaClamp(colorToAlpha(inputDark, black));
+  const [bgDark, distLight] = findBaseColor(inputLight, fgDark);
 
   const light = rgbToHex(inputLight);
   const dark = rgbToHex(inputDark);
 
-  let validDark = paletteValidity.bad;
   let validLight = paletteValidity.bad;
+  let validDark = paletteValidity.bad;
 
   if (distDark == 0) {
     // todo add wiggle room here. equality of floats is bad
-    validDark = paletteValidity.perfect;
+    validLight = paletteValidity.perfect;
   } else if (distDark <= distLight) {
-    validDark = paletteValidity.recommended;
+    validLight = paletteValidity.recommended;
   }
 
   if (distLight == 0) {
-    validLight = paletteValidity.perfect;
+    validDark = paletteValidity.perfect;
   } else if (distLight <= distDark) {
-    validDark = paletteValidity.recommended;
+    validLight = paletteValidity.recommended;
   }
 
   return (
@@ -116,7 +116,15 @@ export default function ColorCalculator(props: {
       <div className="max-w-auto flex flex-row items-center justify-center text-center font-sans text-lg">
         <div className="left-0 pr-24">
           <p className="text-center font-semibold underline">
-            For the dark template
+            For the{' '}
+            <a
+              className="rounded-md border-2 border-[var(--lightCol)] px-1 underline transition-all hover:bg-[var(--lightCol)] hover:text-[var(--darkCol)] active:bg-[var(--darkCol)] active:text-[var(--lightCol)]"
+              STYLE={`--lightCol:${light}; --darkCol:${dark}`} // ignore ts, capitalizing "style" so the string gets passed through unchanged by react
+              href="template-dark.zip"
+              download="Dithering Template (Dark).zip"
+            >
+              dark template
+            </a>
           </p>
           <p>
             Foreground:{' '}
@@ -136,7 +144,15 @@ export default function ColorCalculator(props: {
 
         <div className="">
           <p className="text-center font-semibold underline">
-            For the light template
+            For the{' '}
+            <a
+              className="rounded-md border-2 border-[var(--lightCol)] px-1 underline transition-all hover:bg-[var(--lightCol)] hover:text-[var(--darkCol)] active:bg-[var(--darkCol)] active:text-[var(--lightCol)]"
+              STYLE={`--lightCol:${light}; --darkCol:${dark}`} // ignore ts, capitalizing "style" so the string gets passed through unchanged by react
+              href="template-light.zip"
+              download="Dithering Template (Light).zip"
+            >
+              light template
+            </a>
           </p>
           <p>
             Foreground:{' '}

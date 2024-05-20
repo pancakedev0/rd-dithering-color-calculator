@@ -35,4 +35,5 @@ module.exports = {
       },
     },
   ],
+  pathPrefix: '/rd-dithering-color-calculator',
 };

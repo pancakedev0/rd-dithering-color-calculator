@@ -6,6 +6,7 @@ import { rgbToHex } from '../lib/ColorHelpers';
 import LospecLoader from '../components/LospecLoader';
 import { Palette } from '../lib/WebHelpers';
 import { randomInt } from '../lib/MathHelpers';
+import { PiQuestionMarkBold } from 'react-icons/pi';
 
 // Some palettes disabled due to failing WCAG AAA standard
 const preloadedPalettes: Palette[] = [
@@ -136,6 +137,19 @@ export default function Home() {
           <div className="pl-12">
             {palette.author ? 'by' : ''} {palette.author}
           </div>
+        </div>
+        <div className="fixed bottom-4 left-4 h-12 w-12 transition-all hover:bottom-6 active:bottom-3">
+          <button
+            className="flex h-full w-full items-center justify-center rounded-full bg-[var(--lightCol)]"
+            STYLE={`--lightCol:${light}`}
+            onClick={() => {
+              window.open(
+                'https://github.com/pancakedev0/rd-dithering-color-calculator/blob/8362ef1bcc9eda14e5a99a4791550d07579c0414/README.md'
+              );
+            }}
+          >
+            <PiQuestionMarkBold className="size-10" />
+          </button>
         </div>
       </div>
     </React.StrictMode>
